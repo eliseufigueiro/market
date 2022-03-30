@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 
 public class ProductService {
 
@@ -20,10 +21,21 @@ public class ProductService {
         this.productDAO = new ProductDAO(entityManager);
     }
 
+    private void getBeginTransaction() {
+        this.LOG.info("Abrindo Transação com o Banco de Dados!");
+        entityManager.getTransaction().begin();
+    }
+
+    private void commitAndCloseTransaction() {
+        this.LOG.info("Commitando e Fechando Transação com o Banco de Dados!");
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
+
     public void create(Product product) {
         if (product == null) {
             this.LOG.error("O Produto informado está Nulo!");
-            throw new RuntimeException("O Produto está Nulo!");
+            throw new RuntimeException("The Product is Null!");
         }
         try {
             this.LOG.info("Preparando para a Criação de um Produto!");
@@ -38,14 +50,25 @@ public class ProductService {
         }
     }
 
-    private void commitAndCloseTransaction() {
-        this.LOG.info("Commitando e Fechando Transação com o Banco de Dados!");
-        entityManager.getTransaction().commit();
-        entityManager.close();
-    }
+    public void delete(Long id) {
+        this.LOG.info("Preparando para Buscar o Produto!");
+        if (id == null) {
+            this.LOG.error("O ID do Produto informado está Nulo!");
+            throw new RuntimeException("The ID is Null!");
+        }
 
-    private void getBeginTransaction() {
-        this.LOG.info("Abrindo Transação com o Banco de Dados!");
-        entityManager.getTransaction().begin();
+        Product product = this.productDAO.getById(id);
+
+        if (product == null) {
+            this.LOG.error("O Produto não Existe!");
+            throw new EntityNotFoundException("Product not Found!");
+        }
+
+        this.LOG.info("Produto Encontrado com Sucesso!");
+
+        getBeginTransaction();
+        this.productDAO.delete(product);
+        commitAndCloseTransaction();
+        this.LOG.info("Produto Deletado com Sucesso!");
     }
 }

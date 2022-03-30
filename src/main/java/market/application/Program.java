@@ -14,7 +14,11 @@ public class Program {
         EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
         ProductService productService = new ProductService(entityManager);
 
-        Product product = new Product("Laptop", "Lenovo 14 pol.", new BigDecimal(5999.0), new Category("Gamer"));
-        productService.create(product);
+        //Add Product
+        //Product product = new Product("Laptop", "Lenovo 14 pol.", new BigDecimal(5999.0), new Category("Gamer"));
+        //productService.create(product);
+
+        //Delete Product
+        productService.delete(1L);
     }
 }
