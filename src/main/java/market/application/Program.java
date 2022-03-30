@@ -17,11 +17,11 @@ public class Program {
         CategoryService categoryService = new CategoryService(entityManager);
 
         //Add Product
-        //Product product = new Product("Laptop", "Asus 14 pol.", new BigDecimal(5999.0), new Category("Eletrônicos"));
-        //productService.create(product);
+        Product product = new Product("Apple MacBook", "Pro 13p", new BigDecimal(12000.0), new Category("Elite"));
+        productService.create(product);
 
         //Delete Product
-        productService.delete(2L);
+        //productService.delete(2L);
 
         //Find Category
         //Category category = categoryService.findByName("Gamer");

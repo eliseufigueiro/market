@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 public class CategoryService {
 
@@ -25,6 +26,11 @@ public class CategoryService {
             this.LOG.error("O Nome não pode ser Nulo!");
             throw new RuntimeException("The Name is Null!");
         }
-        return this.categoryDAO.findByName(name.toLowerCase());
+        try {
+            return this.categoryDAO.findByName(name.toLowerCase());
+        } catch (NoResultException e){
+            this.LOG.info("Não foi encontrada Categoria, será Criada!");
+         return null;
+        }
     }
 }
