@@ -5,13 +5,13 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 
-public class ProductService {
+public class CategoryService {
 
-    private final Logger LOG = LogManager.getLogger(ProductService.class);
+    private final Logger LOG = LogManager.getLogger(CategoryService.class);
 
     private EntityManager entityManager;
 
-    public ProductService(EntityManager entityManager) {
+    public CategoryService(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 }

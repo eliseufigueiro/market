@@ -12,6 +12,6 @@ public class Program {
 
         LOG.info("Log4j for Hello World!");
 
-        new JpaConnectionFactory().getEntityManager()
+        new JpaConnectionFactory().getEntityManager();
     }
 }
