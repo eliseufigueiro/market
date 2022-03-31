@@ -8,6 +8,7 @@ import market.services.ProductService;
 
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
+import java.util.List;
 
 public class Program {
 
@@ -17,8 +18,8 @@ public class Program {
         CategoryService categoryService = new CategoryService(entityManager);
 
         //Add Product
-        Product product = new Product("Apple MacBook", "Pro 13p", new BigDecimal(12000.0), new Category("Elite"));
-        productService.create(product);
+        //Product product = new Product("Apple MacBook", "Pro 13p", new BigDecimal(13000.0), new Category("Elite"));
+        //productService.create(product);
 
         //Delete Product
         //productService.delete(2L);
@@ -26,5 +27,12 @@ public class Program {
         //Find Category
         //Category category = categoryService.findByName("Gamer");
         //System.out.println(category);
+
+        //Update Product
+        //productService.update(product, 7L);
+
+        //Listar Products
+        List<Product> productList = productService.listAll();
+        productList.stream().forEach(p -> System.out.println(p));
     }
 }

@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductService {
 
@@ -71,11 +73,7 @@ public class ProductService {
         }
 
         Product product = this.productDAO.getById(id);
-
-        if (product == null) {
-            this.LOG.error("O Produto não Existe!");
-            throw new EntityNotFoundException("Product not Found!");
-        }
+        validateProductIsNull(product);
 
         this.LOG.info("Produto Encontrado com Sucesso!");
 
@@ -83,5 +81,45 @@ public class ProductService {
         this.productDAO.delete(product);
         commitAndCloseTransaction();
         this.LOG.info("Produto Deletado com Sucesso!");
+    }
+
+    public void update(Product newProduct, Long productId) {
+        this.LOG.info("Preparando para Atualizar o Produto!");
+        if (newProduct == null || productId == null) {
+            this.LOG.error("Um dos Parâmetros informado está Nulo!");
+            throw new RuntimeException("The parameter is Null!");
+        }
+
+        Product product = this.productDAO.getById(productId);
+        validateProductIsNull(product);
+
+        this.LOG.info("Produto Encontrado com Sucesso!");
+
+        getBeginTransaction();
+        product.setName(newProduct.getName());
+        product.setDescription(newProduct.getDescription());
+        product.setPrice(newProduct.getPrice());
+        product.setCategory(this.categoryService.findByName(newProduct.getCategory().getName()));
+        commitAndCloseTransaction();
+
+        this.LOG.info("Produto Atualizado com Sucesso!");
+    }
+
+    public List<Product> listAll() {
+        this.LOG.info("Preparando para Listar os Produto!");
+        List<Product> products = this.productDAO.listAll();
+        if (products == null) {
+            this.LOG.error("Não foram Encontrados Produtos");
+            return new ArrayList<>();
+        }
+        this.LOG.info("Foram Encontrados " + products.size() + " Produtos!");
+        return products;
+    }
+
+    private void validateProductIsNull(Product product) {
+        if (product == null) {
+            this.LOG.error("O Produto não Existe!");
+            throw new EntityNotFoundException("Product not Found!");
+        }
     }
 }
