@@ -36,7 +36,10 @@ public class Program {
         //productList.stream().forEach(p -> System.out.println(p));
 
         //Listar Products Name
-        List<Product> productList = productService.listByName("Apple MacBook");
-        productList.stream().forEach(p -> System.out.println(p));
+        //List<Product> productList = productService.listByName("MacBook");
+        //productList.stream().forEach(p -> System.out.println(p));
+
+        //Get Category
+        categoryService.getById(5L);
     }
 }
