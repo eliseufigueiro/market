@@ -32,7 +32,11 @@ public class Program {
         //productService.update(product, 7L);
 
         //Listar Products
-        List<Product> productList = productService.listAll();
+        //List<Product> productList = productService.listAll();
+        //productList.stream().forEach(p -> System.out.println(p));
+
+        //Listar Products Name
+        List<Product> productList = productService.listByName("Apple MacBook");
         productList.stream().forEach(p -> System.out.println(p));
     }
 }

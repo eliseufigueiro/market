@@ -116,6 +116,21 @@ public class ProductService {
         return products;
     }
 
+    public List<Product> listByName(String name) {
+        if (name == null || name.isEmpty()){
+            this.LOG.info("O Parâmetro Nome está Vázio!");
+            throw new RuntimeException("The parameter name is Null!");
+        }
+        this.LOG.info("Preparando para Listar os Produto com o Nome: " + name);
+        List<Product> products = this.productDAO.listByName(name.toLowerCase());
+        if (products == null) {
+            this.LOG.error("Não foram Encontrados Produtos");
+            return new ArrayList<>();
+        }
+        this.LOG.info("Foram Encontrados " + products.size() + " Produtos!");
+        return products;
+    }
+
     private void validateProductIsNull(Product product) {
         if (product == null) {
             this.LOG.error("O Produto não Existe!");

@@ -34,6 +34,11 @@ public class ProductDAO {
         return this.entityManager.createNativeQuery(sql, Product.class).getResultList();
     }
 
+    public List listByName(String name) {
+        String sql = "SELECT * FROM product WHERE name =:name";
+        return this.entityManager.createNativeQuery(sql, Product.class).setParameter("name", name).getResultList();
+    }
+
     private Product convertToMerge(Product product) {
         return this.entityManager.merge(product);
     }
